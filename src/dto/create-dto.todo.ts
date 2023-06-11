@@ -4,6 +4,9 @@ import { PartialType} from "@nestjs/mapped-types";
 
 export class createTodoDto {
 
+   // @IsNotEmpty()
+    //userId : string;
+
     @IsNotEmpty()
     @IsString()
     title : string;

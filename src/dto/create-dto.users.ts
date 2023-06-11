@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty,IsString } from "class-validator";
 import { PartialType } from "@nestjs/mapped-types";
-import { Role } from "src/enum/role.enum";
+import { Role } from "src/roles/schema/schema.roles";
 
 export class createUserDto {
 
@@ -24,7 +24,13 @@ export class createUserDto {
     @IsString()
     password : string;
 
-    role:Role;
+    @IsNotEmpty()
+    
+    role:string;
+
+    
+    
+    
 }
 
 export class userAuthDto extends PartialType(createUserDto) {};

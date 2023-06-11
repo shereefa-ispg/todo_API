@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/schema/schema.users';
-import * as bcrypt from 'bcryptjs';
+//import * as bcrypt from 'bcryptjs';
 import { HttpExceptionFilter } from 'src/exceptionfilter/http-exception.filter';
 import { UseFilters } from '@nestjs/common';
 
@@ -10,14 +10,14 @@ import { UseFilters } from '@nestjs/common';
 @UseFilters(HttpExceptionFilter)
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    private userService: UsersService,
    private jwtService: JwtService,
   ) {}
   
   async validateUser(userName: string, password: string): Promise<any> {
-    const user = await this.usersService.findOneUser(userName);
+    const user = await this.userService.findOneUser(userName);
     if (!user) throw new UnauthorizedException("invalid username");
-    const isMatch = await this.usersService.comparePassword(
+    const isMatch = await this.userService.comparePassword(
       password,
       user.password,
     );
@@ -28,7 +28,10 @@ export class AuthService {
   }
 
   async login(user: User) {
-    const payload = { username: user.userName, sub: user._id };
+    const payload = { username: user.userName, sub: user._id, role:user.role };
     return { accessToken:this.jwtService.sign(payload)}
   }
+  
+
+  
 }

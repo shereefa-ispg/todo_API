@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Document } from 'mongoose';
-import { type } from 'os';
-import { Role } from 'src/enum/role.enum';
+import { Document,ObjectId,Types } from 'mongoose';
+
+import { Role, RoleSchema } from '../../roles/schema/schema.roles';
+import { Mongoose } from 'mongoose';
+import { Todo } from 'src/todo/schema/schema.todo';
 
 // export type UserDocument = HydratedDocument<User>;
 
@@ -20,10 +22,13 @@ export class User extends Document {
   userName: string;
 
   @Prop({ required: true })
-  password: string;
+    password: string;
 
-  @Prop({ type:String, enum:Role, default: Role.User })
+  @Prop({type:Types.ObjectId, ref:'Role'})
   role: Role;
+
+  @Prop({type:Types.ObjectId,ref:'Todo',default:[]})
+  todo:Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

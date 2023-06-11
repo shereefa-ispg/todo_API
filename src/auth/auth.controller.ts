@@ -4,26 +4,46 @@ import { AuthService } from './auth.service';
 //import { LocalAuthGuard } from './local-auth.guard';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { Roles } from 'src/decorators/roles.decorator';
-import { RolesGuard } from 'src/guards/roles.guard';
-import { Role } from 'src/enum/role.enum';
+import { Role } from 'src/roles/schema/schema.roles';
+import { UserGuard } from 'src/guards/user.guard';
+import { RolePermissions, UserRole } from 'src/enum/role.enum';
+import { UsersService } from 'src/users/users.service';
+import { Permissions } from 'src/decorators/permissions.decorator';
+
+
+
 
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    private userservice: UsersService) { }
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  @Roles(Role.Admin)
-  async login(@Request() req) { 
+
+  async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /*@UseGuards(JwtAuthGuard)
   @Get('profile')
-  async getProfile(@Request() req) {console.log(req)
-    return req.user;
-  }
+  async getProfile(@Request() req) {
 
- 
+    return req.user;
+  }*/
+
+  /*@UseGuards(JwtAuthGuard, UserGuard)
+  @Roles(UserRole.USER)
+  @Permissions(RolePermissions[UserRole.USER].read)
+  @Get('/:userId')
+  async getUser(@Request() req) {
+    const userId = req.user.userId;
+    return this.userservice.findUserById(userId);
+
+
+  }*/
+
+
+
 
 }

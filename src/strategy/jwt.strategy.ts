@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
 
   }
-  async validate(payload:any) {console.log(payload)
+  async validate(payload:any) {
     // get user data with user id and save to request
     // role data from role id and save to request
     return {userId: payload.sub, username: payload.username, role:payload.role};
