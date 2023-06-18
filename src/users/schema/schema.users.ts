@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document,ObjectId,Types } from 'mongoose';
+import { Document,Model,ObjectId,Types, model } from 'mongoose';
 
 import { Role, RoleSchema } from '../../roles/schema/schema.roles';
 import { Mongoose } from 'mongoose';
@@ -32,3 +32,5 @@ export class User extends Document {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+export interface UserModel extends User,Document{};
+export const UserModel:Model<User>=model<UserModel>('User',UserSchema);

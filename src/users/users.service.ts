@@ -39,8 +39,8 @@ export class UsersService {
     const password = body.password;
     const hashedPassword = await this.hashPassword(password);
     
-    const newUser = new this.UserModel({ ...body, password: hashedPassword });
-    return newUser.save();
+    const newUser = this.UserModel.create({ ...body, password: hashedPassword });
+    return newUser;
   }
   async findAll():Promise<User[]>{
     return await this.UserModel.find().exec();
@@ -49,7 +49,7 @@ export class UsersService {
   
 
   async findOneUser(username: string): Promise<User> {
-    return await this.UserModel.findOne({ userName: username }).exec();
+    return await this.UserModel.findOne({ userName: username });
       
   }
 

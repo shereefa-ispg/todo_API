@@ -25,25 +25,4 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  /*@UseGuards(JwtAuthGuard)
-  @Get('profile')
-  async getProfile(@Request() req) {
-
-    return req.user;
-  }*/
-
-  /*@UseGuards(JwtAuthGuard, UserGuard)
-  @Roles(UserRole.USER)
-  @Permissions(RolePermissions[UserRole.USER].read)
-  @Get('/:userId')
-  async getUser(@Request() req) {
-    const userId = req.user.userId;
-    return this.userservice.findUserById(userId);
-
-
-  }*/
-
-
-
-
 }

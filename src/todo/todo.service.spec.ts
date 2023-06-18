@@ -1,18 +1,23 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TodoService } from './todo.service';
+import { UsersService } from 'src/users/users.service';
+import { Model } from 'mongoose';
+import { Todo } from './schema/schema.todo';
 
 describe('TodoService', () => {
-  let service: TodoService;
+  let todoService: TodoService;
+  let userService:UsersService;
+  let todoModel:Model<Todo>; 
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [TodoService],
+      providers: [TodoService,UsersService],
     }).compile();
 
-    service = module.get<TodoService>(TodoService);
+    todoService = module.get<TodoService>(TodoService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(todoService).toBeDefined();
   });
 });
