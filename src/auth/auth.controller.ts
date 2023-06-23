@@ -8,11 +8,12 @@ import { Role } from 'src/roles/schema/schema.roles';
 import { UserGuard } from 'src/guards/user.guard';
 import { RolePermissions, UserRole } from 'src/enum/role.enum';
 import { UsersService } from 'src/users/users.service';
-import { Permissions } from 'src/decorators/permissions.decorator';
+import {ApiTags,ApiBody,ApiOperation} from '@nestjs/swagger'
+import { CreateAuthDto } from 'src/dto/create-dto.auth';
 
 
 
-
+@ApiTags('auth')
 @Controller()
 export class AuthController {
   constructor(private authService: AuthService,
@@ -20,6 +21,8 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
+  @ApiOperation({summary:'login with credentials'})
+  @ApiBody({type:CreateAuthDto})
 
   async login(@Request() req) {
     return this.authService.login(req.user);

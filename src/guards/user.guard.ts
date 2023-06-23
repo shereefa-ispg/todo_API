@@ -29,19 +29,23 @@ export class UserGuard implements CanActivate {
 
   }
   async validateRoles(context: ExecutionContext, requiredRoles: UserRole[], requiredPermissions: string[]): Promise<boolean> {
+    console.log(context);
     const request = context.switchToHttp().getRequest();
-    const userId = request.user.userId;
+    const userId = String(request.user.userId);
+    console.log(userId)
     const roleId = request.user.role;
     const paramUserId = request.params.userId;
+    console.log(paramUserId);
 
     const role = await this.roleService.findRoleById(roleId)
     if (!role) {
       return false;
     }
     const userRole = role.role;
+    console.log(userRole);
     if (userRole === UserRole.ADMIN) {
       return true;
-    }
+    }console.log(userId!==paramUserId)
     if (userId !== paramUserId) {
       return false;
     }

@@ -11,8 +11,9 @@ import { UserGuard } from 'src/guards/user.guard';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { Permissions } from 'src/decorators/permissions.decorator';
 import { Request } from 'express';
+import {ApiTags,ApiSecurity} from '@nestjs/swagger'
 
-
+@ApiTags('user')
 @Controller('user')
 @UseFilters(HttpExceptionFilter)
 export class UsersController {
@@ -25,9 +26,11 @@ export class UsersController {
         return user;
 
     }
+    @ApiSecurity('access-token')
     @UseGuards(JwtAuthGuard,UserGuard)
     @Roles(UserRole.ADMIN)
     @Get()
+
     async GetAllUsers():Promise<User[]>{
         const users=await this.usersService.findAll();
         if(!users){
@@ -36,11 +39,12 @@ export class UsersController {
         return users;
     }
 
-    
+    @ApiSecurity('access-token')
     @UseGuards(JwtAuthGuard,UserGuard)
     @Roles(UserRole.USER)
     @Permissions(RolePermissions[UserRole.USER].read)
     @Get('profile/:userId')
+    
     async getOneUser(@Param('userId') userId:string): Promise<User> {
         
         const user = await this.usersService.findUserById(userId);
